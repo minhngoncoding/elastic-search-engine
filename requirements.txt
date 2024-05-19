@@ -1,0 +1,2 @@
+elasticsearch~=8.13.1
+Flask~=2.2.5

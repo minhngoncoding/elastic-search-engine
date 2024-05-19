@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Elastic Search Engine Project</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+</head>
+<body>
+<input class="search_box">
+<script>
+    $(document).ready(function(){
+        $('.search_box').keydown(function(e){
+            getAutoComplete();
+        }
+
+        function getAutoComplete(){
+            console.log("Auto Complete");
+        }
+    }
+</script>
+</body>
+</html>

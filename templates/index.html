@@ -2,21 +2,68 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Elastic Search Engine Project</title>
+    <title>Big Data's Project</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <style>
+    body {
+      font-family: sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .search-container {
+      margin-bottom: 20px;
+    }
+
+    input[type="text"] {
+      padding: 10px;
+      width: 300px;
+    }
+
+    .result-item {
+      padding: 15px;
+      border: 1px solid #ccc;
+      margin-bottom: 5px;
+    }
+    </style>
+
 </head>
 <body>
-<input class="search_box">
-<script>
-    $(document).ready(function(){
-        $('.search_box').keydown(function(e){
-            getAutoComplete();
-        }
+<h1>Search for Documents</h1>
+<div class="search_div">
+    <input type="text" class="search_box" id="searchInput" placeholder="Enter your search...">
+</div>
 
-        function getAutoComplete(){
-            console.log("Auto Complete");
-        }
-    }
+<div id="results">
+
+</div>
+<script>
+
+$(document).ready(function(){
+    let debounce;
+
+    $('.search_box').keydown(function(e){
+        clearTimeout(debounce);
+        debounce = setTimeout(function(){
+            getAutoComplete();
+        }, 300);
+    })
+})
+
+function getAutoComplete(){
+    const query = $('.search_box').val();
+    console.log(query);
+    fetch(`http://127.0.0.1:5000/search?q=${encodeURIComponent(query)}`)
+        .then(response => response.json())
+        .then(data => {
+            $('#results').empty();
+            console.log(data);
+            for (let i = 0; i < data.length; i++){
+                $('#results').append(`<div class="result-item">${data[i]["title"]} <br> <a href=${data[i]["link"]}> ${data[i]["link"]} </a></div>`);
+            }
+        })
+}
 </script>
 </body>
 </html>

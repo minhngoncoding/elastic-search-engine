@@ -1,14 +1,24 @@
 from elasticsearch import Elasticsearch
 from flask import Flask
 
-es = Elasticsearch(hosts=['https://localhost:9200'])
 
 ELASTIC_PASSWORD = "V9FIXaAZs79O7MuwjuPB0AyO"
 
-CLOUD_ID = "elasticsearch-big-data-project:146514a5e1c942b99e9347b7af461f9d"
+CLOUD_ID = "elasticsearch:dXMtY2VudHJhbDEuZ2NwLmNsb3VkLmVzLmlvOjQ0MyRlMTVmNjdlNGEyNjg0NDY1ODdkYzZkMTI4MjBhZTkwYSRhNTllYmU0YTMxOTA0OTY0YjU1OTljNzdiY2JjNTU0NA=="
 
 client = Elasticsearch(
     cloud_id=CLOUD_ID,
     basic_auth=("elastic", ELASTIC_PASSWORD)
 )
-client.info()
+
+response = client.search(index="search-document", body={
+    "query": {
+        "match": {
+            "title": {}
+        }
+    }
+}, size=5)
+
+print(response)
+for data in response["hits"]["hits"]:
+    print(data["_source"]["title"] + " " + data["_source"]["additional_urls"][0])
